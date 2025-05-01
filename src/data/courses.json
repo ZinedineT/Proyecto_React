@@ -1,7 +1,4 @@
-import CourseCard from './CourseCard';
-
-const FeaturedCourses = () => {
-  const courses = [
+[
     {
       "id": 1,
       "title": "React desde Cero",
@@ -26,18 +23,16 @@ const FeaturedCourses = () => {
       "rating": 4.9,
       "category": "Backend"
     },
-  ];
-
-  return (
-    <div className="container mx-auto py-12 px-4">
-      <h2 className="text-3xl font-bold mb-8 text-center">Cursos Destacados</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {courses.map(course => (
-          <CourseCard key={course.id} course={course} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default FeaturedCourses;
+    {
+      "id": 3,
+      "title": "Diseño UI/UX Moderno",
+      "description": "Principios de diseño y prototipado con Figma",
+      "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      "duration": "12 horas",
+      "level": "Principiante",
+      "instructor": "María Rodríguez",
+      "price": 24.99,
+      "rating": 4.7,
+      "category": "Diseño"
+    }
+  ]
