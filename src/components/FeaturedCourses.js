@@ -1,37 +1,37 @@
+import { useState, useEffect } from 'react'; 
 import CourseCard from './CourseCard';
 
-const FeaturedCourses = () => {
-  const courses = [
-    {
-      "id": 1,
-      "title": "React desde Cero",
-      "description": "Aprende React.js fundamentos con proyectos prácticos",
-      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      "duration": "15 horas",
-      "level": "Principiante",
-      "instructor": "Ana López",
-      "price": 29.99,
-      "rating": 4.8,
-      "category": "Frontend"
-    },
-    {
-      "id": 2,
-      "title": "Node.js Avanzado",
-      "description": "Construye APIs RESTful con Express y MongoDB",
-      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      "duration": "20 horas",
-      "level": "Intermedio",
-      "instructor": "Carlos Méndez",
-      "price": 39.99,
-      "rating": 4.9,
-      "category": "Backend"
-    },
-  ];
+const FeaturedCourses = ({ title = "Cursos Destacados", subtitle = "", filter = "featured" }) => {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    // Simulamos carga de API
+    import('../data/courses.json').then(data => {
+      let filteredCourses = [];
+
+      switch(filter) {
+        case "featured":
+          filteredCourses = data.default.filter(course => course.isFeatured);
+          break;
+        case "new":
+          filteredCourses = data.default.filter(course => course.isNew);
+          break;
+        default:
+          filteredCourses = data.default.slice(0, 3); // Por defecto muestra 3
+      }
+
+      setCourses(filteredCourses);
+    });
+  }, [filter]);
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <h2 className="text-3xl font-bold mb-8 text-center">Cursos Destacados</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        {subtitle && <p className="text-gray-600 mt-2">{subtitle}</p>}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map(course => (
           <CourseCard key={course.id} course={course} />
         ))}
@@ -39,5 +39,4 @@ const FeaturedCourses = () => {
     </div>
   );
 };
-
 export default FeaturedCourses;

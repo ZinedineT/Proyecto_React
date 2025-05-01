@@ -1,7 +1,8 @@
-html {
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

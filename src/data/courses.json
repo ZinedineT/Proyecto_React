@@ -1,38 +1,50 @@
 [
-    {
-      "id": 1,
-      "title": "React desde Cero",
-      "description": "Aprende React.js fundamentos con proyectos prácticos",
-      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      "duration": "15 horas",
-      "level": "Principiante",
-      "instructor": "Ana López",
-      "price": 29.99,
-      "rating": 4.8,
-      "category": "Frontend"
-    },
-    {
-      "id": 2,
-      "title": "Node.js Avanzado",
-      "description": "Construye APIs RESTful con Express y MongoDB",
-      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      "duration": "20 horas",
-      "level": "Intermedio",
-      "instructor": "Carlos Méndez",
-      "price": 39.99,
-      "rating": 4.9,
-      "category": "Backend"
-    },
-    {
-      "id": 3,
-      "title": "Diseño UI/UX Moderno",
-      "description": "Principios de diseño y prototipado con Figma",
-      "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-      "duration": "12 horas",
-      "level": "Principiante",
-      "instructor": "María Rodríguez",
-      "price": 24.99,
-      "rating": 4.7,
-      "category": "Diseño"
-    }
-  ]
+  {
+    "id": 1,
+    "title": "React desde Cero",
+    "description": "Aprende React.js fundamentos con proyectos prácticos",
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    "duration": "15 horas",
+    "level": "Principiante",
+    "instructor": "Ana López",
+    "price": 29.99,
+    "originalPrice": 39.99,
+    "rating": 4.8,
+    "reviews": 45,
+    "category": "Frontend",
+    "isNew": false,
+    "isFeatured": true
+  },
+  {
+    "id": 2,
+    "title": "Node.js Avanzado",
+    "description": "Construye APIs RESTful con Express y MongoDB",
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    "duration": "20 horas",
+    "level": "Intermedio",
+    "instructor": "Carlos Méndez",
+    "price": 39.99,
+    "originalPrice": 49.99,
+    "rating": 4.9,
+    "reviews": 32,
+    "category": "Backend",
+    "isNew": true,
+    "isFeatured": true
+  },
+  {
+    "id": 3,
+    "title": "Diseño UI/UX Moderno",
+    "description": "Principios de diseño y prototipado con Figma",
+    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    "duration": "12 horas",
+    "level": "Principiante",
+    "instructor": "María Rodríguez",
+    "price": 24.99,
+    "originalPrice": 34.99,
+    "rating": 4.7,
+    "reviews": 28,
+    "category": "Diseño",
+    "isNew": false,
+    "isFeatured": true
+  }
+]
