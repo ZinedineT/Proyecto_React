@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
-import { FaStar, FaRegStar, FaClock, FaUserTie, FaHeart } from 'react-icons/fa';
+import { FaStar, FaRegStar, FaClock, FaHeart } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const CourseCard = ({ course }) => {
-  // Función para rating con estrellas
-  const renderStars = (rating) => {
-    return Array(5).fill(0).map((_, i) => (
-      i < Math.floor(rating) ?
-        <FaStar key={i} className="text-yellow-400" /> :
-        <FaRegStar key={i} className="text-yellow-400" />
-    ));
+  const getCategoryColor = () => {
+    switch(course.category) {
+      case 'Frontend': return 'bg-blue-100 text-blue-800';
+      case 'Backend': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-green-100 text-green-800';
+    }
   };
 
   return (
@@ -36,7 +35,7 @@ const CourseCard = ({ course }) => {
 
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+          <span className={`${getCategoryColor()} text-xs px-2 py-1 rounded-full`}>
             {course.category}
           </span>
           <span className="flex items-center text-sm text-gray-500">
@@ -47,18 +46,24 @@ const CourseCard = ({ course }) => {
         <h3 className="font-bold text-lg mb-2 line-clamp-2">{course.title}</h3>
 
         <div className="flex items-center mb-3">
-          {renderStars(course.rating)}
+          {[...Array(5)].map((_, i) => (
+            i < Math.floor(course.rating) ?
+              <FaStar key={i} className="text-yellow-400" /> :
+              <FaRegStar key={i} className="text-yellow-400" />
+          ))}
           <span className="text-gray-600 text-sm ml-2">({course.reviews})</span>
         </div>
 
         <div className="flex justify-between items-center">
           <div>
-            <span className="text-gray-500 line-through mr-2">${course.originalPrice}</span>
-            <span className="font-bold text-lg">${course.price}</span>
+            {course.originalPrice && (
+              <span className="text-gray-500 line-through mr-2">${course.originalPrice}</span>
+            )}
+            <span className="font-bold text-lg text-primary-600">${course.price}</span>
           </div>
           <Link
             to={`/courses/${course.id}`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+            className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
           >
             Ver detalles
           </Link>

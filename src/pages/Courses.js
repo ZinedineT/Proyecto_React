@@ -6,85 +6,95 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('todos'); // Cambiado a minúsculas
+  const [categoryFilter, setCategoryFilter] = useState('Todos');
 
   useEffect(() => {
-    // Simulamos carga asíncrona (puedes eliminar el setTimeout si no lo necesitas)
     setTimeout(() => {
       setCourses(coursesData);
       setLoading(false);
     }, 800);
   }, []);
 
-  // Filtrar cursos
   const filteredCourses = courses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter.toLowerCase() === 'todos' ||
-                            course.category.toLowerCase() === categoryFilter.toLowerCase();
+    const matchesCategory = categoryFilter === 'Todos' || course.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
-  // Obtener categorías únicas
-  const categories = ['todos', ...new Set(courses.map(course => course.category))];
+  const categories = ['Todos', ...new Set(courses.map(course => course.category))];
 
   if (loading) {
     return (
-      <div className="container mx-auto py-12 text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Cargando cursos...</p>
+      <div className="bg-gradient-to-r from-dark-800 to-dark-900 min-h-screen py-12 text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500 mx-auto"></div>
+        <p className="mt-4 text-gray-300">Cargando cursos...</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Explora Nuestros Cursos</h1>
+    <div className="bg-gradient-to-r from-dark-800 to-dark-900 min-h-screen text-white">
+      <div className="container mx-auto py-12 px-4">
+        <h1 className="text-4xl font-bold mb-8 text-center text-white">Explora Nuestros Cursos</h1>
 
-      {/* Filtros */}
-      <div className="mb-8 bg-gray-50 p-4 rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
-            <input
-              type="text"
-              placeholder="Buscar cursos..."
-              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        {/* Filtros */}
+        <div className="bg-gradient-to-b from-dark-800 to-dark-900 p-6 rounded-xl shadow-lg mb-12 border border-dark-600">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Buscar</label>
+              <input
+                type="text"
+                color='black'
+                placeholder="Buscar por título o descripción..."
+                className="w-full p-3 bg-dark-600 border border-dark-500 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-black placeholder-gray-400"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Categoría</label>
+              <select
+                className="w-full p-3 bg-dark-600 border border-dark-500 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-black placeholder-gray-400"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+              >
+                {categories.map(category => (
+                  <option key={category} value={category} className="bg-dark-800 text-white">
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-            <select
-              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
+          <p className="text-sm text-gray-400">
+            Mostrando <span className="font-medium text-primary-500">{filteredCourses.length}</span> de {courses.length} cursos disponibles
+          </p>
+        </div>
+
+        {/* Lista de cursos */}
+        {filteredCourses.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredCourses.map(course => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-dark-700 rounded-xl border border-dark-600">
+            <h3 className="text-2xl font-medium text-gray-300 mb-3">No se encontraron cursos</h3>
+            <p className="text-gray-400 mb-6">Prueba ajustando tus criterios de búsqueda</p>
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setCategoryFilter('Todos');
+              }}
+              className="px-6 py-2 bg-primary-500 hover:bg-primary-600 rounded-lg text-white font-medium transition"
             >
-              {categories.map(category => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
+              Mostrar todos los cursos
+            </button>
           </div>
-        </div>
-        <p className="text-sm text-gray-600">
-          Mostrando {filteredCourses.length} de {courses.length} cursos
-        </p>
+        )}
       </div>
-
-      {/* Lista de cursos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map(course => (
-          <CourseCard key={course.id} course={course} />
-        ))}
-      </div>
-
-      {filteredCourses.length === 0 && (
-        <div className="text-center py-12">
-          <h3 className="text-xl font-medium text-gray-700">No se encontraron cursos</h3>
-          <p className="text-gray-500 mt-2">Intenta con otros términos de búsqueda</p>
-        </div>
-      )}
     </div>
   );
 };

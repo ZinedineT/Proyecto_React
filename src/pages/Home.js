@@ -6,7 +6,7 @@ import Newsletter from '../components/Newsletter';
 
 const Home = () => {
   return (
-    <div className="overflow-hidden">
+    <div className="relative bg-gradient-to-r from-dark-800 to-dark-900 text-white py-10 px-4 overflow-hidden">
       <HeroSection />
 
       <StatsSection />
@@ -16,7 +16,7 @@ const Home = () => {
         subtitle="Los más elegidos por nuestra comunidad"
       />
 
-      <div className="bg-gray-50 py-16">
+      <div className="relative bg-gradient-to-r from-dark-800 to-dark-900 text-white">
         <FeaturedCourses
           title="Nuevos Cursos"
           subtitle="Recién llegados a nuestra plataforma"

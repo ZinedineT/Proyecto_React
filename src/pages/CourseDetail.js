@@ -33,6 +33,7 @@ const CourseDetail = () => {
   };
 
   return (
+  <div className='relative bg-gradient-to-r from-dark-800 to-dark-900 text-white'>
     <div className="container mx-auto py-8 px-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Información principal */}
@@ -52,7 +53,7 @@ const CourseDetail = () => {
             <span className="text-sm text-gray-500">{course.duration} de contenido</span>
           </div>
 
-          <div className="bg-gray-50 p-6 rounded-lg mb-8">
+          <div className="bg-gradient-to-r from-dark-800 to-dark-900 p-6 rounded-lg mb-8">
             <h2 className="text-xl font-semibold mb-4">Descripción del curso</h2>
             <p className="text-gray-700 mb-4">{course.description}</p>
 
@@ -101,7 +102,7 @@ const CourseDetail = () => {
 
         {/* Sidebar - Compra */}
         <div className="lg:col-span-1">
-          <div className="bg-white border rounded-lg shadow-md sticky top-4 p-6">
+          <div className="bg-gradient-to-r from-dark-800 to-dark-900 text-white border rounded-lg shadow-md sticky top-4 p-6">
             <div className="mb-4">
               <img
                 src={course.image}
@@ -120,19 +121,19 @@ const CourseDetail = () => {
               <h3 className="font-semibold mb-2">Este curso incluye:</h3>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <span className="text-blue-500 mr-2">✔</span>
+                  <span className="text-green-500 mr-2">✔</span>
                   <span>Acceso de por vida</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-blue-500 mr-2">✔</span>
+                  <span className="text-green-500 mr-2">✔</span>
                   <span>{course.duration} de video bajo demanda</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-blue-500 mr-2">✔</span>
+                  <span className="text-green-500 mr-2">✔</span>
                   <span>Ejercicios prácticos</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-blue-500 mr-2">✔</span>
+                  <span className="text-green-500 mr-2">✔</span>
                   <span>Certificado de finalización</span>
                 </li>
               </ul>
@@ -141,6 +142,7 @@ const CourseDetail = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
