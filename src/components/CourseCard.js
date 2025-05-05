@@ -33,7 +33,7 @@ const CourseCard = ({ course }) => {
         )}
       </div>
 
-      <div className="p-5">
+      <div className="bg bg-gradient-to-b p-5">
         <div className="flex justify-between items-start mb-2">
           <span className={`${getCategoryColor()} text-xs px-2 py-1 rounded-full`}>
             {course.category}

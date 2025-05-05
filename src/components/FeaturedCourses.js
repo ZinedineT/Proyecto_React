@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 import CourseCard from './CourseCard';
 
 const FeaturedCourses = ({ title = "Cursos Destacados", subtitle = "", filter = "featured" }) => {
