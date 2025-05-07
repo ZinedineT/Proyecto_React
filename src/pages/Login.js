@@ -12,31 +12,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // Validación básica
-    if (!email || !password) {
-      setError('Por favor completa todos los campos');
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // Simulamos una llamada a API
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Validación simulada (en un caso real, esto vendría de tu backend)
-      if (email === 'usuario@ejemplo.com' && password === 'password123') {
-        login({ 
-          email,
-          name: 'Usuario Demo',
-          role: 'student'
-        });
-      } else {
-        setError('Credenciales incorrectas');
+      if (!email || !password) {
+        throw new Error('Por favor completa todos los campos');
       }
+
+      await login(email, password);
     } catch (err) {
-      setError('Error al conectar con el servidor');
+      setError(err.message || 'Error al iniciar sesión');
     } finally {
       setLoading(false);
     }

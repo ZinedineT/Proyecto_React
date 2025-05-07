@@ -10,7 +10,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); 
+  const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,17 +18,11 @@ const Register = () => {
     setLoading(true);
 
     try {
-      // Validación básica
       if (!name || !email || !password) {
         throw new Error('Por favor completa todos los campos');
       }
 
-      // Simulación de registro (reemplazar con llamada a API real)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Simulación de éxito (en un caso real, crea un usuario en el backend)
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/dashboard'); // Redirige al dashboard después del registro
+      await register(name, email, password);
     } catch (err) {
       setError(err.message || 'Error al registrarse');
     } finally {
