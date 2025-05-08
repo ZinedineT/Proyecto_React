@@ -12,9 +12,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-dark-800 to-dark-900 min-h-screen py-16 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <div className="bg-gradient-to-b text-white p-8 rounded-xl shadow-lg border border-dark-600">
+      <div className="bg-gradient-to-r from-dark-800 to-dark-900 min-h-screen py-12 px-2">
+        <div className=" text-white p-8 shadow-lg">
           <h1 className="text-3xl font-bold text-primary-500 mb-6">
             Bienvenido, {user?.name || 'Usuario'}
           </h1>
@@ -38,7 +37,7 @@ const Dashboard = () => {
           </button>
 
           {/* Añadir FeaturedCourses */}
-          <div className="mt-12">
+          <div className="mt-10">
             <FeaturedCourses
               title="Cursos Destacados"
               subtitle="Explora nuestros cursos más populares"
@@ -47,7 +46,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 

@@ -123,8 +123,7 @@ const HeroSection = () => {
 
       {/* Efecto de burbujas decorativas */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white"></div>
-        <div className="absolute bottom-10 right-20 w-60 h-60 rounded-full bg-white"></div>
+        <div className="absolute bottom-10 right-40 w-60 h-60 rounded-full bg-white"></div>
       </div>
     </div>
   );

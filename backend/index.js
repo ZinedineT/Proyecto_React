@@ -69,11 +69,21 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Obtener todos los cursos (para usar en el frontend más adelante)
+// Obtener todos los cursos (única definición)
 app.get('/api/courses', async (req, res) => {
   try {
     const [courses] = await pool.query('SELECT * FROM Courses');
-    res.json(courses);
+    // Convertir valores para que coincidan con lo que CourseCard espera
+    const formattedCourses = courses.map(course => ({
+      ...course,
+      isNew: Boolean(course.isNew),
+      isFeatured: Boolean(course.isFeatured),
+      price: parseFloat(course.price),
+      originalPrice: course.originalPrice ? parseFloat(course.originalPrice) : null,
+      rating: parseFloat(course.rating),
+      reviews: parseInt(course.reviews, 10),
+    }));
+    res.json(formattedCourses);
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener cursos', error: err.message });
   }
