@@ -8,6 +8,8 @@ import CourseDetail from './pages/CourseDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Profile from './components/Profile';
+import NotFound from './pages/NotFound'; // Crea este componente
 
 function App() {
   return (
@@ -25,7 +27,12 @@ function App() {
             {/* Rutas privadas */}
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} />
+              {/* Agrega más rutas protegidas aquí */}
             </Route>
+
+            {/* Ruta para páginas no encontradas */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </AuthProvider>

@@ -62,22 +62,14 @@ const CourseCard = ({ course }) => {
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      className="group relative rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-xl transition-all duration-500 h-full flex flex-col"
+      className="group relative rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-xl transition-all duration-500 h-auto flex flex-col"
     >
-      {/* Fondo oscuro por defecto */}
       <div className="absolute inset-0 bg-gradient-to-r from-dark-800 to-dark-900 z-0"></div>
-
-      {/* Overlay de color de categoría (sutil) */}
       <div className={`absolute inset-0 ${overlayColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-1`}></div>
-
-      {/* Gradiente radial suave al hover (un poco más tenue) */}
       <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0),rgba(0,0,0,0.2))] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-2`}></div>
-
-      {/* Barra lateral izquierda (acento de categoría) */}
       <div className={`absolute left-0 top-0 bottom-0 w-1 ${textColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-3`}></div>
 
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Contenido de la imagen */}
+      <div className="relative z-10 h-full flex flex-col border border-black">
         <div className="relative flex-shrink-0">
           <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300"></div>
           <img
@@ -96,9 +88,8 @@ const CourseCard = ({ course }) => {
           )}
         </div>
 
-        {/* Contenido de texto */}
-        <div className="p-5 flex-grow flex flex-col min-h-[220px]">
-          <div className="flex justify-between items-start mb-2"> {/* Reduje el mb */}
+        <div className="p-5 flex-grow flex flex-col min-h-[220px] min-w-[300px]">
+          <div className="flex justify-between items-start mb-2">
             <span className={`text-xs px-3 py-1 rounded-full font-bold ${textColor} bg-white/10 backdrop-blur-sm`}>
               {category}
             </span>
@@ -107,11 +98,11 @@ const CourseCard = ({ course }) => {
             </span>
           </div>
 
-          <h3 className="font-bold text-xl mb-2 leading-snug text-white group-hover:text-gray-100 transition-colors"> {/* Reduje el mb */}
+          <h3 className="font-bold text-xl mb-2 leading-snug text-white group-hover:text-gray-100 transition-colors">
             {title}
           </h3>
 
-          <div className="flex items-center mb-3"> {/* Reduje el mb */}
+          <div className="flex items-center mb-3">
             {[...Array(5)].map((_, i) =>
               i < Math.floor(rating) ? (
                 <FaStar key={i} className="text-yellow-300" />
@@ -124,21 +115,23 @@ const CourseCard = ({ course }) => {
             </span>
           </div>
 
-          <div className="flex justify-between items-center mt-auto"> {/* mt-auto para empujar hacia abajo */}
-            <div>
-              {originalPrice !== null && (
-                <span className="text-gray-500 line-through mr-2">${originalPrice}</span>
-              )}
-              <span className="font-bold text-xl text-white">
-                ${price}
-              </span>
+          <div className="mt-auto">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                {originalPrice !== null && (
+                  <span className="text-gray-500 line-through mr-2">${originalPrice}</span>
+                )}
+                <span className="font-bold text-xl text-white">
+                  ${price}
+                </span>
+              </div>
+              <Link
+                to={`/courses/${id}`}
+                className={`min-h-[40px] bg-white text-dark-900 ${buttonHover} px-4 py-2 rounded-lg text-sm font-bold transition-colors duration-300 hover:text-white`}
+              >
+                Ver detalles
+              </Link>
             </div>
-            <Link
-              to={`/courses/${id}`}
-              className={`min-h-[40px] bg-white text-dark-900 ${buttonHover} px-4 py-2 rounded-lg text-sm font-bold transition-colors duration-300 hover:text-white`}
-            >
-              Ver detalles
-            </Link>
           </div>
         </div>
       </div>

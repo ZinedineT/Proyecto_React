@@ -76,11 +76,11 @@ const HeroSection = () => {
         <div className="relative h-96 hidden lg:block">
         <div className="absolute inset-5 flex items-center justify-center">
             <img
-              src="/images/hero-image.png" // Asegúrate de que la ruta es correcta
+              src="/images/hero-image.png"
               alt="Persona aprendiendo programación"
-              className="h-full object-contain" // Ajusta según necesites
+              className="h-full object-contain"
               style={{
-                filter: 'drop-shadow(0 0 50px rgba(0, 180, 216, 0.5))' // Efecto de sombra con tu color primary-500
+                filter: 'drop-shadow(0 0 50px rgba(0, 180, 216, 0.5))'
               }}
             />
           </div>
@@ -88,7 +88,7 @@ const HeroSection = () => {
           {/* Iconos flotantes */}
       {programmingIcons.map(({ Icon, size, animation, color }, index) => {
           const numIcons = programmingIcons.length;
-          const angle = (2 * Math.PI * index) / numIcons; // Ángulo para cada icono
+          const angle = (2 * Math.PI * index) / numIcons;
           const radius = 50; // Radio del círculo (ajusta según necesites)
 
           // Coordenadas relativas al centro
@@ -96,8 +96,8 @@ const HeroSection = () => {
           const offsetY = radius * Math.sin(angle);
 
           // Ajusta estos valores para el centro de la persona (aproximado)
-          const centerX = 40; // Porcentaje horizontal
-          const centerY = 50; // Porcentaje vertical
+          const centerX = 40;
+          const centerY = 50;
 
           const top = `${centerY + offsetY}%`;
           const left = `${centerX + offsetX}%`;
@@ -111,7 +111,7 @@ const HeroSection = () => {
                 top,
                 left,
                 zIndex: 10,
-                transform: 'translate(-50%, -50%)', // Centrar el icono en el punto calculado
+                transform: 'translate(-50%, -50%)', 
               }}
             >
               <Icon />

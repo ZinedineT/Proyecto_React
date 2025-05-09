@@ -29,7 +29,7 @@ const FeaturedCourses = ({ title = "Cursos Destacados", subtitle = "", filter = 
             filteredCourses = data.filter(course => course.isNew);
             break;
           default:
-            filteredCourses = data.slice(0, 6); // Mostrar más cursos para el carrusel
+            filteredCourses = data.slice(0, 10);
         }
 
         setCourses(filteredCourses);

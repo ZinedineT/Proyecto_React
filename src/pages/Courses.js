@@ -39,7 +39,7 @@ const Courses = () => {
         <h1 className="text-4xl font-bold mb-8 text-center text-white">Explora Nuestros Cursos</h1>
 
         {/* Filtros */}
-        <div className="bg-gradient-to-b from-dark-800 to-dark-900 p-6 rounded-xl shadow-lg mb-12 border border-dark-600">
+        <div className="bg-gradient-to-b from-dark-800 to-dark-900 p-6 rounded-xl shadow-lg mb-12 border border-black">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Buscar</label>
