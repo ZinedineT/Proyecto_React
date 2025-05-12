@@ -5,33 +5,39 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const initializeAuth = async () => {
-      const token = localStorage.getItem('token');
+      const storedToken = localStorage.getItem('token');
       const storedUser = localStorage.getItem('user');
 
-      if (token && storedUser) {
+      if (storedToken && storedUser) {
         try {
-          // Verificar si el token sigue siendo válido
           const response = await fetch('http://localhost:5000/api/auth/me', {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              'Authorization': `Bearer ${storedToken}`,
+            },
           });
 
           if (response.ok) {
             const userData = await response.json();
             setUser(userData);
+            setToken(storedToken);
           } else {
-            // Token inválido, limpiar almacenamiento
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            setUser(null);
+            setToken(null);
           }
         } catch (err) {
           console.error('Error verificando autenticación:', err);
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          setUser(null);
+          setToken(null);
         }
       }
       setLoading(false);
@@ -54,13 +60,13 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-
       setUser(data.user);
+      setToken(data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('token', data.token);
       navigate('/dashboard');
     } catch (err) {
-      throw err; 
+      throw err;
     }
   };
 
@@ -75,22 +81,21 @@ export const AuthProvider = ({ children }) => {
     if (!response.ok) throw new Error(data.message || 'Error al registrarse');
 
     setUser(data.user);
+    setToken(data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('token', data.token);
     navigate('/dashboard');
   };
 
-  // 1. DEFINIR LA FUNCIÓN UPDATEUSERPROFILE
   const updateUserProfile = async (updatedData) => {
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/auth/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
@@ -99,8 +104,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      setUser(data.user); // Actualiza el estado del usuario
-      localStorage.setItem('user', JSON.stringify(data.user)); // Actualiza localStorage
+      setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       return data;
     } catch (err) {
       throw err;
@@ -109,21 +114,25 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/');
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      login,
-      register,
-      logout,
-      updateUserProfile,
-      isAuthenticated: !!user,
-      loading
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        login,
+        register,
+        logout,
+        updateUserProfile,
+        isAuthenticated: !!user && !!token,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

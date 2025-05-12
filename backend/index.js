@@ -99,10 +99,15 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.sendStatus(401);
-
+  if (!token){
+    console.log('No hay token');
+    return res.sendStatus(401);
+  }
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) {
+      console.log('Error al verificar token:', err.message);
+      return res.sendStatus(403);
+    }
     req.user = user;
     next();
   });
@@ -188,5 +193,76 @@ app.get('/api/courses/:id', async (req, res) => {
     res.json(formattedCourse);
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener el curso', error: err.message });
+  }
+});
+
+// Endpoint para realizar una compra
+app.post('/api/purchases', authenticateToken, async (req, res) => {
+  const { courseId } = req.body;
+
+  try {
+    // Obtener el user_id desde el token
+    const [users] = await pool.query('SELECT id FROM Users WHERE email = ?', [req.user.email]);
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    const userId = users[0].id;
+
+    // Verificar si el curso existe
+    const [courses] = await pool.query('SELECT id FROM Courses WHERE id = ?', [courseId]);
+    if (courses.length === 0) {
+      return res.status(404).json({ message: 'Curso no encontrado' });
+    }
+
+    // Verificar si el usuario ya compró el curso
+    const [existingPurchase] = await pool.query(
+      'SELECT id FROM Purchases WHERE user_id = ? AND course_id = ?',
+      [userId, courseId]
+    );
+    if (existingPurchase.length > 0) {
+      return res.status(400).json({ message: 'Ya has comprado este curso' });
+    }
+
+    // Registrar la compra
+    await pool.query(
+      'INSERT INTO Purchases (user_id, course_id) VALUES (?, ?)',
+      [userId, courseId]
+    );
+
+    res.status(201).json({ message: 'Curso comprado exitosamente' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al procesar la compra', error: err.message });
+  }
+});
+
+// Endpoint para obtener los cursos comprados por el usuario
+app.get('/api/purchases', authenticateToken, async (req, res) => {
+  try {
+    // Obtener el user_id desde el token
+    const [users] = await pool.query('SELECT id FROM Users WHERE email = ?', [req.user.email]);
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    const userId = users[0].id;
+
+    // Obtener los cursos comprados
+    const [purchases] = await pool.query(
+      'SELECT c.* FROM Courses c JOIN Purchases p ON c.id = p.course_id WHERE p.user_id = ?',
+      [userId]
+    );
+
+    const formattedPurchases = purchases.map(course => ({
+      ...course,
+      isNew: Boolean(course.isNew),
+      isFeatured: Boolean(course.isFeatured),
+      price: parseFloat(course.price),
+      originalPrice: course.originalPrice ? parseFloat(course.originalPrice) : null,
+      rating: parseFloat(course.rating),
+      reviews: parseInt(course.reviews, 10),
+    }));
+
+    res.json(formattedPurchases);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener compras', error: err.message });
   }
 });

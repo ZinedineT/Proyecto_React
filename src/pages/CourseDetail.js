@@ -1,11 +1,47 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FaStar, FaRegStar, FaClock, FaUserTie, FaMoneyBillWave, FaLayerGroup } from 'react-icons/fa';
-import coursesData from '../data/courses.json';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const course = coursesData.find(c => c.id === parseInt(id));
+  const { user, token, isAuthenticated, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [purchaseMessage, setPurchaseMessage] = useState('');
+  const [purchaseError, setPurchaseError] = useState('');
 
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/courses/${id}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Error al cargar el curso');
+        setCourse(data);
+      } catch (err) {
+        setPurchaseError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCourse();
+  }, [id]);
+
+  if (authLoading) {
+    return (
+      <div className="container mx-auto py-12 text-center">
+        <h2 className="text-2xl font-bold text-gray-300">Autenticación...</h2>
+      </div>
+    );
+  }
+  if (loading) {
+  return (
+    <div className="container mx-auto py-12 text-center">
+      <h2 className="text-2xl font-bold text-gray-300">Cargando curso...</h2>
+    </div>
+    );
+  }
   if (!course) {
     return (
       <div className="container mx-auto py-12 text-center">
@@ -15,6 +51,33 @@ const CourseDetail = () => {
     );
   }
 
+const handlePurchase = async () => {
+    if (!isAuthenticated) {
+      setPurchaseError('Debes iniciar sesión para comprar un curso');
+      setTimeout(() => navigate('/login'), 2000);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/purchases', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ courseId: course.id }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Error al comprar el curso');
+
+      setPurchaseMessage('¡Curso comprado exitosamente! Revisa tu dashboard.');
+      setPurchaseError('');
+    } catch (err) {
+      setPurchaseError(err.message || 'Error al procesar la compra');
+      setPurchaseMessage('');
+    }
+  };
   const renderStars = () => {
     const stars = [];
     const fullStars = Math.floor(course.rating);
@@ -109,12 +172,22 @@ const CourseDetail = () => {
                 alt={course.title}
                 className="w-full rounded-lg mb-4"
               />
-              <div className="flex justify-between items-center">
-                <span className="text-3xl font-bold">${course.price}</span>
-                <button className="btn-primary px-6 py-3">
-                  Inscribirse ahora
-                </button>
-              </div>
+            <div className="flex justify-between items-center">
+              <span className="text-3xl font-bold">${course.price}</span>
+              <button
+                onClick={handlePurchase}
+                className="btn-primary px-6 py-3"
+                disabled={purchaseMessage.includes('exitosamente')}
+              >
+                {purchaseMessage.includes('exitosamente') ? 'Comprado' : 'Inscribirse ahora'}
+              </button>
+            </div>
+            {purchaseMessage && (
+              <p className="mt-4 text-green-500">{purchaseMessage}</p>
+              )}
+              {purchaseError && (
+                <p className="mt-4 text-red-500">{purchaseError}</p>
+              )}
             </div>
 
             <div className="border-t pt-4">
